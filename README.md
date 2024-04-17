@@ -30,3 +30,12 @@ You can use any library.
 Submission:
 Upload your implementation to a GitHub repository
 ```
+
+## Rules
+
+- The map size is 10,000 meters x 10,000 meters.
+- The treasure is placed randomly on the map.
+- The user can submit any number of guesses for the treasure's location.
+- The user can become a winner only once.
+- The user wins if the distance between the user's guess and the treasure's location is less than 1000 meters.
+
