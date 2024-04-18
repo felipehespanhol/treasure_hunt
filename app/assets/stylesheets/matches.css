@@ -1,0 +1,22 @@
+.play-again-fields {
+  margin-top: 2rem;
+}
+
+.ranking-table {
+}
+
+.ranking-table tr th {
+  text-align: left;
+}
+
+.ranking-table tr th:nth-child(2) {
+  /* text-align: center; */
+}
+
+.ranking-table tr td:nth-child(3) {
+  text-align: right;
+}
+
+.ranking-table th, .ranking-table td {
+  padding: 0.2rem 0.5rem;
+}

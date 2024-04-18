@@ -21,11 +21,32 @@
   align-items: center;
 }
 
-.main-header_current-session {
+.main-header__current-session {
   display: flex;
   align-items: center;
 }
 
-.main-header_current-session > div {
+.main-header__current-session > div {
   margin-left: 1rem;
+}
+
+.flash {
+  margin: 1rem 0rem 2rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.flash-notice {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.flash-alert {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.flash-info {
+  background-color: #cce5ff;
+  color: #004085;
 }

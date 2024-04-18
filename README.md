@@ -39,3 +39,42 @@ Upload your implementation to a GitHub repository
 - The user can become a winner only once.
 - The user wins if the distance between the user's guess and the treasure's location is less than 1000 meters.
 
+
+## Database Schema Draft
+
++-------------------+----------+
+| matches           |          |
++-------------------+----------+
+| id                | bigint   |
+| treasure_x        | real     |
+| treasure_y        | real     |
+| closest_distance  | real     |
+| user_id           | bigint   |
+| created_at        | datetime |
+| updated_at        | datetime |
+| winner_id         | bigint   |
++-------------------+----------+
+
++-------------------+----------+
+| guesses           |          |
++-------------------+----------+
+| id                | bigint   |
+| coord_x           | real     |
+| coord_y           | real     |
+| distance          | real     |
+| is_successful     | boolean  |
+| match_id          | bigint   |
+| user_id           | bigint   |
+| created_at        | datetime |
+| updated_at        | datetime |
++-------------------+----------+
+
++-------------------+----------+
+| users             |          |
++-------------------+----------+
+| id                | bigint   |
+| email             | text     |
+| created_at        | datetime |
+| updated_at        | datetime |
++-------------------+----------+
+

@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    redirect_to new_guess_path if current_user
   end
 
   def create

@@ -28,4 +28,12 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  activerecord:
+    models:
+      match:
+        one: Match
+        other: Matches
+    attributes:
+      match:
+        coord_x: "Coordenate X"
+        coord_y: "Coordenate Y"

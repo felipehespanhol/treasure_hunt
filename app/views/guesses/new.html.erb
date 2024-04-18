@@ -1,2 +1,31 @@
-<h1>Guesses#new</h1>
-<p>Find me in app/views/guesses/new.html.erb</p>
+<div class="guess-container">
+  <fieldset class="guess-fields">
+    <legend>Match <%= @match.id %></legend>
+
+    <%= form_for Guess.new do |f| %>
+      <%= f.hidden_field :match_id, value: @match.id %>
+
+      <div>
+        <%= f.label :coord_x %>
+        <%= f.number_field :coord_x, value: @guess.coord_x, step: 250, class: 'guess-fields__input' %>
+      </div>
+
+      <div>
+        <%= f.label :coord_y %>
+        <%= f.number_field :coord_y, value: @guess.coord_y, step: 250, class: 'guess-fields__input' %>
+      </div>
+
+      <%= f.submit 'Send coordenates', class: 'guess-fields__submit' %>
+    <% end %>
+  </fieldset>
+
+  <% if @last_guess&.distance.present? %>
+    <div class="current-distance">
+      <h3>Last attempt:</h3>
+
+      <p>Coord X: <%= @last_guess.coord_x %></p>
+      <p>Coord Y: <%= @last_guess.coord_y %></p>
+      <p>Distance: <%= @last_guess.distance %></p>
+    </div>
+  <% end %>
+</div>

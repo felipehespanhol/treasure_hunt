@@ -1,0 +1,37 @@
+.guess-container {
+  display: flex;
+  justify-content: left;
+}
+
+.guess-fields {
+  width: 20rem;
+  height: 12rem;
+}
+
+.guess-fields form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.guess-fields form > div {
+  text-align: center;
+}
+
+.guess-fields__input {
+  text-align: right;
+}
+
+.guess-fields__submit {
+  width: 15rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.current-distance {
+  border: 1px solid darkgray;
+  width: 14rem;
+  padding: 0.8rem 2rem;
+  margin: 0.5rem 0.5rem 0rem;
+}
