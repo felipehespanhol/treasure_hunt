@@ -33,4 +33,28 @@ RSpec.describe 'Sessions', type: :request do
       expect(response).to redirect_to('/guesses/new')
     end
   end
+
+  describe 'DELETE /' do
+    let!(:user) { create(:user) }
+
+    before do
+      post '/sessions', params: { email: user.email }
+    end
+
+    subject do
+      delete '/sessions'
+    end
+
+    it 'signs out the user' do
+      subject
+
+      expect(session).not_to have_key(:user_id)
+    end
+
+    it 'redirects to /sessions/new' do
+      subject
+
+      expect(response).to redirect_to('/sessions/new')
+    end
+  end
 end
