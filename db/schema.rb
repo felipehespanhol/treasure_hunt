@@ -10,9 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_18_001535) do
+ActiveRecord::Schema[7.1].define(version: 2024_04_18_002357) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "guesses", force: :cascade do |t|
+    t.float "coord_x"
+    t.float "coord_y"
+    t.float "distance"
+    t.boolean "is_successful"
+    t.bigint "match_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_guesses_on_match_id"
+    t.index ["user_id"], name: "index_guesses_on_user_id"
+  end
 
   create_table "matches", force: :cascade do |t|
     t.float "treasure_x"
@@ -28,4 +41,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_18_001535) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "guesses", "matches"
+  add_foreign_key "guesses", "users"
 end
