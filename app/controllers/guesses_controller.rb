@@ -37,6 +37,8 @@ class GuessesController < ApplicationController
     if @guess.is_successful?
       @match.update(winner: @guess.user)
 
+      UserMailer.with(guess: @guess).you_won.deliver_later
+
       flash[:notice] = 'Congratulations! You found the treasure!'
 
       redirect_to match_path(@guess.match)

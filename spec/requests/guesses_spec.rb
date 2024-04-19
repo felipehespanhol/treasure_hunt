@@ -81,6 +81,21 @@ RSpec.describe 'Guesses', type: :request do
 
           expect(response).to redirect_to(match_path(match))
         end
+
+        it 'sends an email to the user' do
+          mail_double = double
+          allow(mail_double).to receive(:deliver_later)
+
+          user_mailer_double = double(you_won: mail_double)
+          allow(UserMailer).to receive(:with).with(guess: an_instance_of(Guess)).and_return(user_mailer_double)
+
+          allow(mail_double).to receive(:deliver_later)
+
+          subject
+
+          expect(UserMailer).to have_received(:with).with(guess: Guess.last)
+          expect(mail_double).to have_received(:deliver_later)
+        end
       end
 
       context 'and the guess is not successful' do
