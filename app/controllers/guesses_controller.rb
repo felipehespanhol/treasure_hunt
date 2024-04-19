@@ -22,7 +22,7 @@ class GuessesController < ApplicationController
       return
     end
 
-    @guess = current_user.guesses.build(guess_params)
+    @guess = Guess.new_with_coordenates(guess_params.merge(user: current_user))
 
     unless @guess.save
       flash[:alert] = 'Invalid request. Please send both coordinates.'

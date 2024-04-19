@@ -10,40 +10,28 @@ RSpec.describe Guess, type: :model do
   it { is_expected.to belong_to(:match) }
   it { is_expected.to belong_to(:user) }
 
-  describe '#calculate_distance' do
-    let(:match) { create(:match, treasure_x: 1, treasure_y: 1) }
-    let(:guess) { build(:guess, match: match, coord_x: 2, coord_y: 2) }
+  describe '.new_with_coordenates' do
+    let(:coord_x) { 5 }
+    let(:coord_y) { 4 }
+    let(:match) { build(:match, treasure_x: 1, treasure_y: 1) }
 
-    it 'calculates the distance' do
-      guess.save
+    subject { Guess.new_with_coordenates(coord_x:, coord_y:, match:) }
 
-      expect(guess.distance).to eq(1.41)
+    it 'builds a new guess and set the distance' do
+      expect(subject.distance).to eq(5.0)
     end
-  end
 
-  describe '#calculate_success' do
-    let(:match) { create(:match) }
-    let(:guess) { build(:guess, match: match, coord_x: coord_x, coord_y: coord_y) }
-
-    context 'when distance is less than or equal to 1000' do
-      let(:coord_x) { match.treasure_x }
-      let(:coord_y) { match.treasure_y + 1000 }
-
+    context 'when the distance is below 1000 meters' do
       it 'marks the guess as successful' do
-        guess.save
-
-        expect(guess.is_successful).to be(true)
+        expect(subject.is_successful).to be(true)
       end
     end
 
-    context 'when distance is greater than 1000' do
-      let(:coord_x) { match.treasure_x }
-      let(:coord_y) { match.treasure_y + 1001 }
+    context 'when the distance is above 1000 meters' do
+      let(:coord_y) { 1002 }
 
       it 'marks the guess as unsuccessful' do
-        guess.save
-
-        expect(guess.is_successful).to be(false)
+        expect(subject.is_successful).to be(false)
       end
     end
   end

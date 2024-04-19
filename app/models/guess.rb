@@ -7,15 +7,18 @@ class Guess < ApplicationRecord
   validates :coord_x, :coord_y, numericality: true, presence: true
   validates :distance, numericality: true
 
-  before_validation :calculate_distance
-  before_validation :calculate_success
+  def self.new_with_coordenates(attributes)
+    Guess.new(attributes).tap do |guess|
+      guess.distance = guess.calculate_distance
 
-  private
+      guess.is_successful = guess.calculate_success
+    end
+  end
 
   def calculate_distance
     return unless match && coord_x && coord_y
 
-    self.distance = Math.sqrt(
+    Math.sqrt(
       (coord_x - match.treasure_x)**2 + (coord_y - match.treasure_y)**2
     ).round(2)
   end
@@ -23,6 +26,6 @@ class Guess < ApplicationRecord
   def calculate_success
     return unless distance
 
-    self.is_successful = distance <= DISTANCE_FOR_SUCCESS
+    distance <= DISTANCE_FOR_SUCCESS
   end
 end
