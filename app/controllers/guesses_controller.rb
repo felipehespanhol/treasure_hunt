@@ -12,40 +12,40 @@ class GuessesController < ApplicationController
 
   # POST /guesses
   def create
-    @match = Match.find(guess_params[:match_id])
+    MakeGuess.new(self).call(current_user, guess_params)
+  end
 
-    if @match.winner.present?
-      flash[:alert] = 'Match already finished'
+  # See MakeGuess
+  def match_has_already_finished(match)
+    flash[:alert] = 'Match already finished'
 
-      redirect_to match_path(@match)
+    redirect_to match_path(match)
+  end
 
-      return
-    end
+  # See MakeGuess
+  def invalid_request(guess)
+    flash[:alert] = 'Invalid request. Please send both coordinates.'
 
-    @guess = Guess.new_with_coordenates(guess_params.merge(user: current_user))
+    @guess = guess
+    @match = guess.match
+    @last_guess = current_user.guesses.where(match: guess.match).last
 
-    unless @guess.save
-      flash[:alert] = 'Invalid request. Please send both coordinates.'
+    render :new, status: :unprocessable_entity
+  end
 
-      @last_guess = current_user.guesses.where(match: @match).last
+  # See MakeGuess
+  def successful_guess(guess)
+    guess.match.update(winner: guess.user)
 
-      render :new, status: :unprocessable_entity
+    UserMailer.with(guess:).you_won.deliver_later
 
-      return
-    end
+    flash[:notice] = 'Congratulations! You found the treasure!'
 
-    if @guess.is_successful?
-      @match.update(winner: @guess.user)
+    redirect_to match_path(guess.match)
+  end
 
-      UserMailer.with(guess: @guess).you_won.deliver_later
-
-      flash[:notice] = 'Congratulations! You found the treasure!'
-
-      redirect_to match_path(@guess.match)
-
-      return
-    end
-
+  # See MakeGuess
+  def unsuccessful_guess
     flash[:info] = 'Try again!'
 
     redirect_to new_guess_path
