@@ -39,42 +39,31 @@ Upload your implementation to a GitHub repository
 - The user can become a winner only once.
 - The user wins if the distance between the user's guess and the treasure's location is less than 1000 meters.
 
+## Booting the application
 
-## Database Schema Draft
+For this application you're going to need a Ruby 3+ installed in your machine.
 
-+-------------------+----------+
-| matches           |          |
-+-------------------+----------+
-| id                | bigint   |
-| treasure_x        | real     |
-| treasure_y        | real     |
-| closest_distance  | real     |
-| user_id           | bigint   |
-| created_at        | datetime |
-| updated_at        | datetime |
-| winner_id         | bigint   |
-+-------------------+----------+
+1. Clone the repository.
+2. Run `bundle install`.
+3. Run `rails db:create db:migrate`.
+5. Set the api_key as a credential using `rails credentials:edit`. This is going to be used to authenticate the requests to the API.
+4. Run `rails s`.
+5. Access `http://localhost:3000` in your browser.
 
-+-------------------+----------+
-| guesses           |          |
-+-------------------+----------+
-| id                | bigint   |
-| coord_x           | real     |
-| coord_y           | real     |
-| distance          | real     |
-| is_successful     | boolean  |
-| match_id          | bigint   |
-| user_id           | bigint   |
-| created_at        | datetime |
-| updated_at        | datetime |
-+-------------------+----------+
+## API Documentation
 
-+-------------------+----------+
-| users             |          |
-+-------------------+----------+
-| id                | bigint   |
-| email             | text     |
-| created_at        | datetime |
-| updated_at        | datetime |
-+-------------------+----------+
+In order to interact with the API you're going to need to authenticate your requests using the header `API_KEY`. It refers to the `api_key` that you've set in the credentials.
 
+### GET /api/winners
+
+Lists the winners of the game.
+It's paginated, 10 per page.
+You can pass the `page` parameter to navigate through the pages.
+You can use the `order` parameter to sort the results. The default order is `asc`, but you can pass `desc` to get the results in descending order.
+
+## What can be improved
+
+- Improve the unprocessable entity response when submitting guesses so in the UI the user can see the errors discriminated.
+- The last commit refactored the GuessesController#create to take an hexagonal architecture approach. The specs still cover all the scenarios, but the specs for the MakeGuess service are missing, so for the new controller methods.
+- Implement a better way to authenticate the requests in the API. This could be a bearer token or a JWT.
+- Use a pagination library to handle the pagination in the API.
